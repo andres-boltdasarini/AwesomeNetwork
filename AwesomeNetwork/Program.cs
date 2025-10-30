@@ -7,6 +7,7 @@ using AwesomeNetwork.Extentions;
 using AwesomeNetwork.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql; // Добавьте эту строку
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,9 @@ IMapper mapper = mapperConfig.CreateMapper();
 
 builder.Services.AddSingleton(mapper);
 
+// Измените эту строку для использования PostgreSQL
 builder.Services
-    .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection))
+    .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connection))
     .AddUnitOfWork()
     .AddCustomRepository<Message, MessageRepository>()
     .AddIdentity<User, IdentityRole>(opts => {
